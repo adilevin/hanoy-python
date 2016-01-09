@@ -4,7 +4,9 @@
 
 This Python module implements a classical recursive solution of the problem of Hanoi Towers, and visualizes it in 3D using the "visual" library.
 
-It also makes some sounds using "winsound" library.
+##Dependencies
+
+You'll need the [Visual](http://vpython.org/) package
 
 ##How to run
 
@@ -12,6 +14,6 @@ It also makes some sounds using "winsound" library.
 
 ##What you will see
 
-You will see an animation of Hanoi Towers solution
+You will see an animation of Hanoi Towers solution. Use your mouse + right button to rotate the display.
 
 ![](snapshot.png)
