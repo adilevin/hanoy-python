@@ -6,7 +6,7 @@ This Python module implements a classical recursive solution of the problem of H
 
 ##Dependencies
 
-You'll need the [Visual](http://vpython.org/) package
+You'll need [VPython](http://vpython.org/)
 
 ##How to run
 
@@ -14,6 +14,6 @@ You'll need the [Visual](http://vpython.org/) package
 
 ##What you will see
 
-You will see an animation of Hanoi Towers solution. Use your mouse + right button to rotate the display.
+You will see an animation of Hanoi Towers solution in a web browser. Use your mouse + right button to rotate the display.
 
 ![](snapshot.png)
