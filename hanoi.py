@@ -1,7 +1,6 @@
 __author__ = 'Adi Levin'
 
-import vpython as visual
-import winsound
+from vpython import vector, cylinder, box, rate, distant_light
 
 class hanoi_move(object):
 
@@ -19,25 +18,25 @@ class hanoi_graphics(object):
         self.max_disk_radius = 1.0
         self.disk_thickness = 0.2
         self.rod_height = self.disk_thickness * (num_of_disks + 1)
-        self.disks = [visual.cylinder(radius=self.max_disk_radius*(i+2)/(num_of_disks+1),
+        self.disks = [cylinder(radius=self.max_disk_radius*(i+2)/(num_of_disks+1),
                                       length=self.disk_thickness,
-                                      axis=visual.vector(0,0,1),
-                                      color=visual.vector(0.0,0.5,1.0)) \
+                                      axis=vector(0,0,1),
+                                      color=vector(0.0,0.5,1.0)) \
                       for i in range(num_of_disks)]
-        self.rods  = [visual.cylinder(radius=self.max_disk_radius*1.0/(num_of_disks+1),
-                                      color=visual.vector(1.0,0.5,0.3),
+        self.rods  = [cylinder(radius=self.max_disk_radius*1.0/(num_of_disks+1),
+                                      color=vector(1.0,0.5,0.3),
                                       length=self.rod_height,
-                                      axis=visual.vector(0,0,1)) for i in range(num_of_rods)]
+                                      axis=vector(0,0,1)) for i in range(num_of_rods)]
         for i in range(num_of_rods):
             self.rods[i].pos.x = self.max_disk_radius*2*(i-(num_of_rods-1)*0.5)
         for i in range(num_of_disks):
             self.set_disk_pos(disk=i,rod=0,z_order=num_of_disks-i-1)
-        self.base = visual.box(
-            pos=visual.vector(0,0,-self.disk_thickness*0.5),
+        self.base = box(
+            pos=vector(0,0,-self.disk_thickness*0.5),
             length=(num_of_rods+0.5)*self.max_disk_radius*2,
             width=self.disk_thickness,
             height=self.max_disk_radius*2.5,
-            color=visual.vector(0.2,1.0,0.2))
+            color=vector(0.2,1.0,0.2))
 
 
     def set_disk_pos(self,disk,rod,z_order):
@@ -45,16 +44,16 @@ class hanoi_graphics(object):
         self.disks[disk].pos.x = self.rods[rod].pos.x
 
     def animate_disk_move(self,disk,to_rod,to_z_order):
-        self.animate_motion_to_pos(self.disks[disk],visual.vector(self.disks[disk].pos.x,self.disks[disk].pos.y,self.rod_height + self.disk_thickness))
-        self.animate_motion_to_pos(self.disks[disk],visual.vector(self.rods[to_rod].pos.x,self.rods[to_rod].pos.y,self.rod_height + self.disk_thickness))
-        self.animate_motion_to_pos(self.disks[disk],visual.vector(self.rods[to_rod].pos.x,self.rods[to_rod].pos.y,self.disk_thickness * to_z_order))
+        self.animate_motion_to_pos(self.disks[disk],vector(self.disks[disk].pos.x,self.disks[disk].pos.y,self.rod_height + self.disk_thickness))
+        self.animate_motion_to_pos(self.disks[disk],vector(self.rods[to_rod].pos.x,self.rods[to_rod].pos.y,self.rod_height + self.disk_thickness))
+        self.animate_motion_to_pos(self.disks[disk],vector(self.rods[to_rod].pos.x,self.rods[to_rod].pos.y,self.disk_thickness * to_z_order))
 
     def animate_motion_to_pos(self,shape,new_pos):
         pos0 = shape.pos
         pos1 = new_pos
         num_steps = 30
         for i in range(num_steps):
-            visual.rate(40)
+            rate(40)
             x = (i-1)*1.0/(num_steps-1)
             shape.pos = (1-x)*pos0 + x*pos1
 
@@ -84,9 +83,8 @@ def visualize_hanoi_solution(num_of_disks):
 
     def solve_one(from_rod,to_rod):
         moves = calc_hanoi_sequence(num_of_disks,from_rod,to_rod)
-        visual.rate(1.0)
+        rate(1.0)
         for move in moves:
-            winsound.Beep(880,50)
             g.animate_disk_move(disk=move.disk_to_move,to_rod=move.to_rod,to_z_order=state.num_of_disks_per_rod[move.to_rod])
             state.move_disk_to_rod(disk=move.disk_to_move,to_rod=move.to_rod)
 
@@ -95,5 +93,5 @@ def visualize_hanoi_solution(num_of_disks):
         solve_one(2,0)
 
 if __name__=='__main__':
-    lights = [visual.distant_light(direction=visual.vector(0,ydir,0), color=visual.vector(1.0,1.0,1.0)) for ydir in [-1.0,1.0]]
+    lights = [distant_light(direction=vector(0,ydir,0), color=vector(1.0,1.0,1.0)) for ydir in [-1.0,1.0]]
     visualize_hanoi_solution(num_of_disks=6)
